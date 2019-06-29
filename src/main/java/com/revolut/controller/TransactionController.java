@@ -33,8 +33,8 @@ public class TransactionController {
 		double amount = Double.parseDouble(formParams.getFirst("amount"));
 		MoneyTransaction trans =  new MoneyTransaction(); 
 		trans.setAmount(amount); 
-		trans.setReceiverId(Long.parseLong(from));
-		trans.setSenderId(Long.parseLong(to));
+		trans.setReceiverId(Long.parseLong(to));
+		trans.setSenderId(Long.parseLong(from));
 		trans.setStatus(MoneyTransactionStatus.pending); 
 		trans.setTimeStamp(new Date()); 
 		long id = transRepo.save(trans);
