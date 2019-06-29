@@ -42,8 +42,8 @@ public class TransactionControllerTest extends JerseyTest {
  public void testCreate() { 
   Form form = new Form();
   form.param("amount", "1");
-  form.param("receiver", "1L");
-  form.param("sender","2L");
+  form.param("id2", "1");
+  form.param("id1","2");
   Response output = target("/moneytransaction/sendmoney").request().post(Entity.form(form));
   System.out.println(output.getStatus());
   assertEquals("Should return status 200", 200, output.getStatus());
