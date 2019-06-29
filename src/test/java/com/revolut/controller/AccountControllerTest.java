@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,6 +22,8 @@ public class AccountControllerTest extends JerseyTest {
 
  @Override
  public Application configure() {
+     enable(TestProperties.LOG_TRAFFIC);
+     enable(TestProperties.DUMP_ENTITY);
   return new ResourceConfig(AccountController.class);
  }
 
@@ -35,12 +38,12 @@ public class AccountControllerTest extends JerseyTest {
 
  @Test
  public void testCreate() {
-  Account acc = new Account();
-  acc.setCustId(1L);
-  acc.setBalance(1000.0);
-  Response output = target("/account/add").request(MediaType.APPLICATION_FORM_URLENCODED).post(Entity.entity(acc, MediaType.APPLICATION_JSON));
+  Form form = new Form();
+  form.param("custId", "1");
+  form.param("balance", "1000");
+  Response output = target("/account/add").request().post(Entity.form(form));
   System.out.println(output.getStatus());
-  assertEquals("Should return status 201", 201, output.getStatus());
+  assertEquals("Should return status 200", 200, output.getStatus());
  }
 
 }

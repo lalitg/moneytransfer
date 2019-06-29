@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -36,11 +37,11 @@ public class CustomerControllerTest extends JerseyTest {
 
  @Test
  public void testCreate() {
-  Customer cust = new Customer();
-  cust.setName("lalit");
-  Response output = target("/account/add").request(MediaType.APPLICATION_FORM_URLENCODED).post(Entity.entity(cust, MediaType.APPLICATION_JSON));
-  System.out.println(output.getStatus());
-  assertEquals("Should return status 201", 201, output.getStatus());
+	  Form form = new Form();
+	  form.param("name", "lalit");
+	  Response output = target("/customer/add").request().post(Entity.form(form));
+	  System.out.println(output.getStatus());
+	  assertEquals("Should return status 200", 200, output.getStatus());
  }
 
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -31,23 +32,21 @@ public class TransactionControllerTest extends JerseyTest {
  @Test
  public void testGetById() {
   Response output = target("/moneytransaction/1").request().get();
-  assertEquals("Should return status 200", 200, output.getStatus());
+  assertEquals("Should return status 204", 204, output.getStatus());
   assertNotNull("Should return user object as json", output.getEntity());
   System.out.println(output.getStatus());
   System.out.println(output.readEntity(String.class));
  }
 
  @Test
- public void testCreate() {
-  MoneyTransaction trans = new MoneyTransaction();
-  trans.setAmount(1); 
-  trans.setReceiverId(1L);
-  trans.setSenderId(2L);
-  trans.setStatus(MoneyTransactionStatus.pending); 
-  trans.setTimeStamp(new Date()); 
-  Response output = target("/moneytransaction/sendmoney").request(MediaType.APPLICATION_FORM_URLENCODED).post(Entity.entity(trans, MediaType.APPLICATION_JSON));
+ public void testCreate() { 
+  Form form = new Form();
+  form.param("amount", "1");
+  form.param("receiver", "1L");
+  form.param("sender","2L");
+  Response output = target("/moneytransaction/sendmoney").request().post(Entity.form(form));
   System.out.println(output.getStatus());
-  assertEquals("Should return status 201", 204, output.getStatus());
+  assertEquals("Should return status 200", 200, output.getStatus());
  }
 
 }
